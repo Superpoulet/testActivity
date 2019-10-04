@@ -1,57 +1,90 @@
-package sample
+package subflow
 
 import (
-	"github.com/project-flogo/core/activity"
-	"github.com/project-flogo/core/data/metadata"
+	"errors"
+
+	"github.com/TIBCOSoftware/flogo-contrib/action/flow/instance"
+	"github.com/TIBCOSoftware/flogo-lib/core/activity"
+	"github.com/TIBCOSoftware/flogo-lib/core/data"
+	"github.com/TIBCOSoftware/flogo-lib/logger"
 )
 
-func init() {
-	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
+// log is the default package logger
+var log = logger.GetLogger("activity-flogo-subFlow")
+
+const (
+	settingFlowURI = "flowURI"
+)
+
+// SubFlowActivity is an Activity that is used to start a sub-flow, can only be used within the
+// context of an flow
+// settings: {flowURI}
+// input : {sub-flow's input}
+// output: {sub-flow's output}
+type SubFlowActivity struct {
+	metadata *activity.Metadata
 }
 
-var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
-
-//New optional factory method, should be used if one activity instance per configuration is desired
-func New(ctx activity.InitContext) (activity.Activity, error) {
-
-	s := &Settings{}
-	err := metadata.MapToStruct(ctx.Settings(), s, true)
-	if err != nil {
-		return nil, err
-	}
-
-	ctx.Logger().Debugf("Setting: %s", s.ASetting)
-
-	act := &Activity{} //add aSetting to instance
-
-	return act, nil
-}
-
-// Activity is an sample Activity that can be used as a base to create a custom activity
-type Activity struct {
+// NewActivity creates a new SubFlowActivity
+func NewActivity(metadata *activity.Metadata) activity.Activity {
+	return &SubFlowActivity{metadata: metadata}
 }
 
 // Metadata returns the activity's metadata
-func (a *Activity) Metadata() *activity.Metadata {
-	return activityMd
+func (a *SubFlowActivity) Metadata() *activity.Metadata {
+	return a.metadata
 }
 
-// Eval implements api.Activity.Eval - Logs the Message
-func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-
-	input := &Input{}
-	err = ctx.GetInputObject(input)
-	if err != nil {
-		return true, err
+func (a *SubFlowActivity) IOMetadata(ctx activity.Context) (*data.IOMetadata, error) {
+	//todo this can be moved to an "init" to optimize
+	setting, set := ctx.GetSetting(settingFlowURI)
+	if !set {
+		return nil, errors.New("flowURI not set")
 	}
 
-	ctx.Logger().Debugf("Input: %s", input.AnInput)
+	flowURI := setting.(string)
 
-	output := &Output{AnOutput: input.AnInput}
-	err = ctx.SetOutputObject(output)
-	if err != nil {
-		return true, err
+	return instance.GetFlowIOMetadata(flowURI)
+}
+
+// Eval implements api.Activity.Eval - Invokes a REST Operation
+func (a *SubFlowActivity) Eval(ctx activity.Context) (done bool, err error) {
+
+	//todo move to init
+	setting, set := ctx.GetSetting(settingFlowURI)
+
+	if !set {
+		return false, errors.New("flowURI not set")
 	}
 
-	return true, nil
+	flowURI := setting.(string)
+	log.Debugf("Starting SubFlow: %s", flowURI)
+
+	ioMd, err := instance.GetFlowIOMetadata(flowURI)
+	if err != nil {
+		return false, err
+	}
+
+	inputs := make(map[string]*data.Attribute)
+
+	if ioMd != nil {
+		for name, attr := range ioMd.Input {
+
+			value := ctx.GetInput(name)
+			newAttr, err := data.NewAttribute(attr.Name(), attr.Type(), value)
+			if err != nil {
+				return false, err
+			}
+
+			inputs[name] = newAttr
+		}
+	}
+
+	err = instance.StartSubFlow(ctx, flowURI, inputs)
+
+	if err != nil {
+		return false, err
+	}
+
+	return false, nil
 }

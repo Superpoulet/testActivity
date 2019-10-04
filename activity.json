@@ -1,8 +1,9 @@
 {
   "name": "sample-activity",
   "type": "flogo:activity",
+   "ref": "github.com/Superpoulet/myActivity",
   "version": "0.0.1",
-  "title": "Sample Activity",
+  "title": "SPOUL Sample Activity",
   "description": "Sample Activity",
   "homepage": "https://github.com/Superpoulet/myActivity",
   "settings": [
