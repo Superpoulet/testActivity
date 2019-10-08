@@ -123,8 +123,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	/*	ctx.Logger().Debugf("Input: %s", input.IdContrat)*/
 	log.Info("idContrat : ", input.IdContrat)
-	log.Info("idContrat : ", input.DateDebutRecherche)
-	log.Info("idContrat : ", input.DateFinRecherche)
+	log.Info("DateDebutRecherche : ", input.DateDebutRecherche)
+	log.Info("DateFinRecherche : ", input.DateFinRecherche)
 
 	critere := CriteresRecherchePaiement{
 
@@ -132,7 +132,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		DateFinRecherche:   input.DateFinRecherche,
 		NumeroContrat:      input.IdContrat,
 	}
-
+	log.Info("criteres recherche : ", CriteresRecherchePaiement)
 	request := LirePaiementPrestationIn{
 		CodeSystemeExterne:        "UNEO",
 		CriteresRecherchePaiement: critere,
