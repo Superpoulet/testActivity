@@ -172,7 +172,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			},
 		},
 	}
-
+	log.Debugf("SOAP Call: lirePaimentPrestaAI")
 	res, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Error on dispatching request. ", err.Error())
@@ -184,7 +184,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		log.Fatal("Error on unmarshaling xml. ", err.Error())
 		return
 	}
-
+	log.Debugf("SOAP result: [%s]", result)
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
 

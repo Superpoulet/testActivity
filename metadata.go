@@ -27,7 +27,7 @@ type Output struct {
 }
 
 func (o *Output) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["LirePaiementPrestationOut"])
+	strVal, _ := coerce.ToString(values["result"])
 	o.LirePaiementPrestationOut = strVal
 	return nil
 }
