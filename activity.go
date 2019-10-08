@@ -122,7 +122,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 
 	/*	ctx.Logger().Debugf("Input: %s", input.IdContrat)*/
-	log.Info("idContrat : ", input.IdContrat)
+	log.Info("idContrat : ", input)
 	log.Info("DateDebutRecherche : ", input.DateDebutRecherche)
 	log.Info("DateFinRecherche : ", input.DateFinRecherche)
 
