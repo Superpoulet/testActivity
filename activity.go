@@ -197,7 +197,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	log.Debug("SOAP result: ", newStr)
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
-	/*Output = newStr*/
+	Output = newStr
 	output := &Output{newStr}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
