@@ -8,9 +8,12 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/TIBCOSoftware/flogo-lib/logger"
 	"github.com/project-flogo/core/activity"
 	"github.com/project-flogo/core/data/metadata"
 )
+
+var log = logger.GetLogger("activity-Soap-call")
 
 func init() {
 	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
@@ -184,7 +187,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		log.Fatal("Error on unmarshaling xml. ", err.Error())
 		return
 	}
-	log.Debugf("SOAP result: [%s]", result)
+	log.Debug("SOAP result: ", result)
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
 
