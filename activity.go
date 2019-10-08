@@ -5,7 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/xml"
 	"fmt"
-	"log"
+
 	"net/http"
 
 	"github.com/TIBCOSoftware/flogo-lib/logger"
