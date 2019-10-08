@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/xml"
-	"fmt"
+
 	"log"
 	"net/http"
 
@@ -187,9 +187,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
-	fmt.Println(result.SoapBody.LirePaiementPrestationOut.ListePaiement.PaiementsParContrat)
 
-	output := &Output{AnOutput: input.AnInput}
+	output := &Output{LirePaiementPrestationOut: input.AnInput}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err

@@ -9,14 +9,14 @@
     {
       "name": "aSetting",
       "type": "string",
-      "required": true
+      "required": false
     }
   ],
   "input": [
     {
       "name": "anInput",
       "type": "string",
-      "required": true
+      "required": false
     }
   ],
   "output": [
