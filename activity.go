@@ -121,7 +121,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 
-	ctx.Logger().Debugf("Input: %s", input.AnInput)
+	ctx.Logger().Debugf("Input: %s", input.idContrat)
 
 	critere := CriteresRecherchePaiement{
 
