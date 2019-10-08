@@ -132,7 +132,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		DateFinRecherche:   input.DateFinRecherche,
 		NumeroContrat:      input.IdContrat,
 	}
-	log.Info("criteres recherche : ", CriteresRecherchePaiement)
+	log.Info("criteres recherche : ", critere)
 	request := LirePaiementPrestationIn{
 		CodeSystemeExterne:        "UNEO",
 		CriteresRecherchePaiement: critere,
