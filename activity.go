@@ -125,9 +125,9 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	critere := CriteresRecherchePaiement{
 
-		DateDebutRecherche: "2017-01-01",
-		DateFinRecherche:   "2018-01-01",
-		NumeroContrat:      "10140540",
+		DateDebutRecherche: input.dateDebutRecherche,
+		DateFinRecherche:   input.dateFinRecherche,
+		NumeroContrat:      input.idContrat,
 	}
 
 	request := LirePaiementPrestationIn{

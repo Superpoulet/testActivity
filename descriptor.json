@@ -14,9 +14,19 @@
   ],
   "input": [
     {
-      "name": "anInput",
+      "name": "idContrat",
       "type": "string",
-      "required": false
+      "required": true
+    },
+    {
+      "name": "dateDebutRecherche",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "dateFinRecherche",
+      "type": "string",
+      "required": true
     }
   ],
   "output": [

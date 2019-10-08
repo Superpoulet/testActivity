@@ -7,18 +7,26 @@ type Settings struct {
 }
 
 type Input struct {
-	AnInput string `md:"anInput,required"`
+	idContrat string `md:"idContrat,required"`,
+	dateDebutRecherche string `md:"dateDebutRecherche,required"`,
+	dateFinRecherche string `md:"dateFinRecherche,required"`
 }
 
 func (r *Input) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["anInput"])
-	r.AnInput = strVal
+	strVal, _ := coerce.ToString(values["idContrat"])
+	strVal2, _ := coerce.ToString(values["dateDebutRecherche"])
+	strVal3, _ := coerce.ToString(values["dateFinRecherche"])
+	r.idContrat = strVal		
+	r.dateDebutRecherche = strVal2
+	r.dateFinRecherche = strVal3
 	return nil
 }
 
 func (r *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"anInput": r.AnInput,
+		"idContrat": r.idContrat,
+		"dateDebutRecherche": r.dateDebutRecherche,
+		"dateFinRecherche": r.dateFinRecherche
 	}
 }
 
