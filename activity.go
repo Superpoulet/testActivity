@@ -75,7 +75,7 @@ type SoapBodyOut struct {
 	LirePaiementPrestationOut LirePaiementPrestationOut `xml:"lirePaiementPrestationOut"`
 }
 type LirePaiementPrestationOut struct {
-	XMLName       xml.Name      `xml:"http://wsi.cegedimactiv.com/client/paiementPrestation lirePaiementPrestationOut"`
+	XMLName       xml.Name      `xml:"lirePaiementPrestationOut"`
 	ListePaiement ListePaiement `xml:"listePaiement,omitempty"`
 }
 
