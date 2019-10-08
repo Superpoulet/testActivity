@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/xml"
-
+	"fmt"
 	"log"
 	"net/http"
 
