@@ -175,7 +175,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			},
 		},
 	}
-	log.Debug("SOAP Call: lirePaimentPrestaAI")
+	log.Info("SOAP Call: lirePaimentPrestaAI")
 	res, err := client.Do(req)
 	if err != nil {
 		log.Debug("Error on dispatching request. ", err.Error())
@@ -190,9 +190,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	buftes := new(bytes.Buffer)
 	buftes.ReadFrom(res.Body)
 	newStr := buftes.String()
-	fmt.Printf(newStr)
 
-	log.Debug("SOAP result: ", res.Body)
+	log.Debug("SOAP result: ", newStr)
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
 	/*Output = newStr*/
