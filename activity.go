@@ -162,7 +162,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	req, err := http.NewRequest(httpMethod, url, &buf)
 	if err != nil {
-		log.Info("Error ", err.Error())
+		log.Debug("Error ", err.Error())
 		return
 	}
 	req.Header.Set("Content-type", "text/xml;charset=UTF-8")
@@ -175,23 +175,28 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			},
 		},
 	}
-	log.Info("SOAP Call: lirePaimentPrestaAI")
+	log.Debug("SOAP Call: lirePaimentPrestaAI")
 	res, err := client.Do(req)
 	if err != nil {
-		log.Info("Error on dispatching request. ", err.Error())
+		log.Debug("Error on dispatching request. ", err.Error())
 		return
 	}
-	result := new(SoapEnvelopeOUT)
-	err = xml.NewDecoder(res.Body).Decode(result)
-	if err != nil {
-		log.Info("Error on unmarshaling xml. ", err.Error())
-		return
-	}
-	log.Info("SOAP result: ", result)
+	/*	result := new(SoapEnvelopeOUT)
+		err = xml.NewDecoder(res.Body).Decode(result)
+		if err != nil {
+			log.Debug("Error on unmarshaling xml. ", err.Error())
+			return
+		}*/
+	buftes := new(bytes.Buffer)
+	buftes.ReadFrom(res.Body)
+	newStr := buftes.String()
+	fmt.Printf(newStr)
+
+	log.Debug("SOAP result: ", res.Body)
 	/*	bodyString := string(body)
 		fmt.Println(bodyString)*/
-
-	output := &Output{LirePaiementPrestationOut: input.AnInput}
+	Output = newStr
+	/*	output := &Output{LirePaiementPrestationOut: input.AnInput}*/
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
