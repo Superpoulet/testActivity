@@ -76,7 +76,7 @@ type SoapBodyOut struct {
 	LirePaiementPrestationOut LirePaiementPrestationOut `xml:"lirePaiementPrestationOut"`
 }
 type LirePaiementPrestationOut struct {
-	XMLName       xml.Name      `xml:"lirePaiementPrestationOut"`
+	/*XMLName       xml.Name      `xml:"lirePaiementPrestationOut"`*/
 	ListePaiement ListePaiement `xml:"listePaiement,omitempty"`
 }
 
