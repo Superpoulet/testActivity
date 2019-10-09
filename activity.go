@@ -184,21 +184,25 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		log.Debug("Error on dispatching request. ", err.Error())
 		return
 	}
-	/*	result := new(SoapEnvelopeOUT)
-		err = xml.NewDecoder(res.Body).Decode(result)
-		if err != nil {
-			log.Debug("Error on unmarshaling xml. ", err.Error())
-			return
-		}*/
-	buftes := new(bytes.Buffer)
-	buftes.ReadFrom(res.Body)
-	newStr := buftes.String()
+	result := new(SoapEnvelopeOUT)
+	err = xml.NewDecoder(res.Body).Decode(result)
+	if err != nil {
+		log.Debug("Error on unmarshaling xml. ", err.Error())
+		return
+	}
+	resultJson := result.SoapBody.LirePaiementPrestationOut
 
-	log.Debug("SOAP result: ", newStr)
-	/*	bodyString := string(body)*/
-	fmt.Println(newStr)
-	/*Output = newStr*/
-	output := &Output{newStr}
+	resJson, err := json.Marshal(resultJson)
+	if err != nil {
+		log.Fatal("Cannot encode to JSON ", err)
+	}
+	/*	buftes := new(bytes.Buffer)
+		buftes.ReadFrom(res.Body)
+		newStr := buftes.String()
+	*/
+	log.Debug("SOAP result json: ", resJson)
+
+	output := &Output{resJson}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
