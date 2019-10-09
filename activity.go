@@ -3,6 +3,7 @@ package sample
 import (
 	"bytes"
 	"crypto/tls"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 
@@ -194,7 +195,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	resJson, err := json.Marshal(resultJson)
 	if err != nil {
-		log.Fatal("Cannot encode to JSON ", err)
+		log.Info("Cannot encode to JSON ", err)
 	}
 	/*	buftes := new(bytes.Buffer)
 		buftes.ReadFrom(res.Body)
