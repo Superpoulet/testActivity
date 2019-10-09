@@ -203,7 +203,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	*/
 	log.Debug("SOAP result json: ", resJson)
 
-	output := &Output{resJson}
+	output := &Output{string(resJson)}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
